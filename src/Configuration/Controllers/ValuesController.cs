@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using Configuration.Options;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace Configuration.Controllers
 {
@@ -9,26 +10,36 @@ namespace Configuration.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly ExampleOptions _snapshot;
-        private readonly ExampleOptions _options;
-
-        public ValuesController(IOptions<ExampleOptions> options, IOptionsSnapshot<ExampleOptions> snapshot)
-        {
-            _snapshot = snapshot.Value;
-            _options = options.Value;
-        }
-
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return Ok(_options);
+            return new string[] { "value1", "value2" };
         }
 
-        [HttpGet("snapshot")]
-        public ActionResult<IEnumerable<string>> GetSnapshot()
+        // GET api/values/5
+        [HttpGet("{id}")]
+        public ActionResult<string> Get(int id)
         {
-            return Ok(_snapshot);
+            return "value";
+        }
+
+        // POST api/values
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+        }
+
+        // PUT api/values/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
         }
     }
 }
